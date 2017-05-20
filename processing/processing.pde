@@ -21,9 +21,9 @@ void setup()
 void draw()
 {
   if (buttonState)
-    background(226, 106, 106);
-  else
     background(89, 171, 227);
+  else
+    background(55);
 
   textAlign(CENTER, CENTER);
   textSize(20);
@@ -34,7 +34,7 @@ void buttonEvent(int value) {
   buttonState = value == 1;
 
   // send command to light up led!
-  //sendLEDState();
+  sendLEDState();
 }
 
 void sendLEDState()

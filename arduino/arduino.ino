@@ -1,7 +1,6 @@
 #include <OscSerial.h>
 
 #define BUTTON_PIN 2
-#define LED_PIN 13
 
 boolean buttonPressed = false;
 boolean ledLightOn = false;
@@ -14,9 +13,7 @@ void setup() {
   Serial.begin(9600);
 
   pinMode(BUTTON_PIN, INPUT);
-  digitalWrite(BUTTON_PIN, HIGH);
-
-  //pinMode(LED_PIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   oscSerial.begin(Serial);
 }
@@ -31,7 +28,6 @@ void loop() {
   {
     // pressed
     //Serial.println("button pressed!");
-    //sendButtonState();
     buttonPressed = true;
     sendButtonState();
   }
@@ -58,29 +54,18 @@ void lightLED()
 {
   counter = (counter + 1) % 10;
 
-  if (ledLightOn)
+  if (ledLightOn && counter < 5)
   {
-    digitalWrite(LED_PIN, HIGH);
+    digitalWrite(LED_BUILTIN, HIGH);
+  }
+  else if (ledLightOn && counter >= 5)
+  {
+    digitalWrite(LED_BUILTIN, LOW);
   }
   else
   {
-    digitalWrite(LED_PIN, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
   }
-
-  /*
-    if (ledLightOn && counter < 5)
-    {
-    digitalWrite(LED_BUILTIN, HIGH);
-    }
-    else if (ledLightOn && counter >= 5)
-    {
-    digitalWrite(LED_BUILTIN, LOW);
-    }
-    else
-    {
-    digitalWrite(LED_BUILTIN, LOW);
-    }
-  */
 }
 
 void oscEvent(OscMessage &m) {
